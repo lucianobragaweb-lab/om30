@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, RouterView, useRoute } from 'vue-router'
+import { RouterLink, RouterView, useRoute, useRouter } from 'vue-router'
 import { ref, watch, computed } from 'vue'
 import MobileSidebar from '@/components/layout/MobileSidebar.vue'
 import StaticSidebar from '@/components/layout/StaticSidebar.vue'
@@ -11,6 +11,16 @@ import {
 } from '@heroicons/vue/24/outline'
 
 const route = useRoute()
+const router = useRouter()
+
+const doLogout = () => {
+  try {
+    localStorage.removeItem("token")
+    router.push({ name: 'login' })
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 const navigation = [
   { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
@@ -19,7 +29,7 @@ const navigation = [
 
 const userNavigation = [
   { name: 'Meu Perfil', href: '/profile' },
-  { name: 'Sair', href: '/login' },
+  { name: 'Sair', action: doLogout },
 ]
 
 const sidebarOpen = ref(false)
@@ -27,6 +37,8 @@ const sidebarOpen = ref(false)
 const isDasboardPage = computed(
   () => route.name !== 'login'
 )
+
+
 </script>
 
 <template>

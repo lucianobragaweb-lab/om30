@@ -1,8 +1,40 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import axios from 'axios'
+import { useStore } from 'vuex'
+
 import {
   EnvelopeIcon,
   KeyIcon
 } from '@heroicons/vue/24/outline'
+
+const store = useStore()
+const router = useRouter()
+
+const email = ref('')
+const password = ref('')
+const isLoading = ref(false)
+
+const saveUser = (user: User) => store.dispatch('saveUser', user)
+
+const doLogin = async () => {
+  isLoading.value = true
+  try {
+    axios.post('/api/login', {
+      email: email.value,
+      password: password.value
+    }).then(function (response) {
+      saveUser(response.data.user)
+      router.push({ name: 'home' })
+      console.log(response)
+    })
+  } catch (error) {
+    console.error(error)
+  } finally {
+    isLoading.value = false
+  }
+}
 
 </script>
 
@@ -18,14 +50,14 @@ import {
 
           <div class="mt-10">
             <div>
-              <form action="#" method="POST" class="space-y-6">
+              <form @submit.prevent="doLogin()" class="space-y-6">
                 <div>
                   <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email</label>
                   <div class="relative mt-2 rounded-md shadow-sm">
                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                       <EnvelopeIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </div>
-                    <input type="email" name="email" id="email" class="block w-full rounded-md border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="seu@mail.com" />
+                    <input type="email" name="email" id="email" v-model="email" class="block w-full rounded-md border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="seu@mail.com" />
                   </div>
                 </div>
 
@@ -35,14 +67,12 @@ import {
                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                       <KeyIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </div>
-                    <input type="password" name="password" id="password" class="block w-full rounded-md border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite sua senha" />
+                    <input type="password" name="password" id="password" v-model="password" class="block w-full rounded-md border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite sua senha" />
                   </div>
                 </div>
 
                 <div class="py-4">
-                  <RouterLink to="/" class="flex w-full justify-center rounded-md bg-rose-700 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-rose-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-800">
-                    Entrar
-                  </RouterLink>
+                  <button type="submit" :disabled="isLoading" class="flex w-full justify-center rounded-md bg-rose-700 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-rose-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-800">Entrar</button>
                 </div>
               </form>
             </div>

@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
+import axios from 'axios'
+
 import {
   PlusIcon,
   CalendarIcon
@@ -6,19 +9,21 @@ import {
 
 import NewPatient from '../components/NewPatientModal.vue'
 
-const people = [
-  {
-    photo:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-    name: 'Maria da silva melo',
-    mother: 'Joana da silva melo',
-    birth: '25/12/2020',
-    cpf: '052.188.328-25',
-    cns: '052.188.328-25',
-    address: 'Rua das pedras, 25, pereiros, Meruoca-CE, 125-458-000'
-  },
-  // More people...
-]
+const patients = ref<Patient[]>()
+const isLoading = ref(true)
+
+const getPatients = () => {
+  isLoading.value = true
+  axios.get('api/patients').then(res => {
+    patients.value = res.data
+  })
+}
+
+onMounted(() => {
+  getPatients()
+  console.log('mounted in the composition api!')
+})
+
 </script>
 
 <template>
@@ -50,35 +55,35 @@ const people = [
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
-              <tr v-for="person in people" :key="person.cpf">
+              <tr v-for="patient in patients" :key="patient.cpf">
                 <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                   <div class="flex items-center">
                     <div class="h-11 w-11 flex-shrink-0">
-                      <img class="h-11 w-11 rounded-full" :src="person.photo" alt="" />
+                      <img class="h-11 w-11 rounded-full" :src="patient.photo" alt="" />
                     </div>
                     <div class="ml-4">
-                      <div class="font-medium text-gray-900">{{ person.name }}</div>
-                      <div class="mt-1 text-gray-500">{{ person.address }}</div>
+                      <div class="font-medium text-gray-900">{{ patient.name }}</div>
+                      <div class="mt-1 text-gray-500">{{ patient.address }}</div>
                     </div>
                   </div>
                 </td>
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                   <div class="text-gray-900">
                     <span class="inline-flex items-center rounded bg-rose-50 px-1 py-.5 text-xs text-rose-700 ring-1 ring-inset ring-rose-600/20">CPF</span>
-                    {{ person.cpf }}
+                    {{ patient.cpf }}
                   </div>
                   <div class="mt-1 text-gray-500">
                     <span class="inline-flex items-center rounded bg-rose-50 px-1 py-.5 text-xs text-rose-700 ring-1 ring-inset ring-rose-600/20">CNS</span>
-                    {{ person.cns }}
+                    {{ patient.cns }}
                   </div>
                 </td>
                 <td class="whitespace-nowrap px-3 py-5 text-sm text-gray-500">
                   <div class="flex align-center">
-                    <CalendarIcon class="h-5 w-5 mr-2" aria-hidden="true" /> {{ person.birth }}
+                    <CalendarIcon class="h-5 w-5 mr-2" aria-hidden="true" /> {{ patient.birth }}
                   </div>
                   <div class="mt-1 text-gray-500">
                     <span class="inline-flex items-center rounded bg-rose-50 px-1 py-.5 text-xs text-rose-700 ring-1 ring-inset ring-rose-600/20">Mãe</span>
-                    {{ person.mother }}
+                    {{ patient.mother }}
                   </div>
                 </td>
                 <td class="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium">

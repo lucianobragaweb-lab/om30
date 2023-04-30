@@ -1,4 +1,5 @@
 interface UserNavigationItem {
-    name: string
-    href: string
+  name: string
+  href?: string
+  action?: string
 }
