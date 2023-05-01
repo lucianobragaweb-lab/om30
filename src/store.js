@@ -1,10 +1,12 @@
 import { createStore } from 'vuex'
+import axios from 'axios'
 
 const store = createStore({
   state () {
     return {
       count: 0,
-      user: {}
+      user: {},
+      patientsTotal: null
     }
   },
   mutations: {
@@ -16,6 +18,9 @@ const store = createStore({
     },
     user (state, user) {
       state.user = user
+    },
+    patientsTotal (state, total) {
+      state.patientsTotal = total
     }
   },
   actions: {
@@ -28,10 +33,19 @@ const store = createStore({
     saveUser ({ commit }, user) {
       console.log(user)
       commit('user', user)
+    },
+    getTotalPatients ({ commit }) {
+      try {
+        axios.get('api/patients/total').then(res => {
+          commit('patientsTotal', res.data)
+        })
+      } catch (error) {
+        console.error(error)
+      }
     }
   },
   getters: {
-    getCount: state => state.count
+    totalPatients: state => state.patientsTotal
   }
 })
 

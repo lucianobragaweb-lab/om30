@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { UserNavigationItem } from '@/types/UserNavigationItem'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 

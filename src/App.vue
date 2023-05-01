@@ -23,12 +23,12 @@ const doLogout = () => {
 }
 
 const navigation = [
-  { name: 'Dashboard', href: '/', icon: HomeIcon, current: true },
-  { name: 'Pacientes', href: '/patients', icon: UsersIcon, current: false }
+  { name: 'Dashboard', to: "/", icon: HomeIcon, current: true },
+  { name: 'Pacientes', to: "patients", icon: UsersIcon, current: false }
 ]
 
 const userNavigation = [
-  { name: 'Meu Perfil', href: '/profile' },
+  // { name: 'Meu Perfil', href: '/profile' },
   { name: 'Sair', action: doLogout },
 ]
 

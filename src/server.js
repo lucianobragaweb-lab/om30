@@ -47,6 +47,10 @@ export function makeServer (enviroment = 'development') {
 
       this.get('patients')
 
+      this.get('patients/total', (schema) => {
+        return schema.all('patient').length
+      })
+
       this.get("/patients/:id", (schema, request) => {
         const id = request.params.id
         return schema.find("patient", id)

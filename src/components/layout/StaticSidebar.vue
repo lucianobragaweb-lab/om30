@@ -13,26 +13,33 @@ defineProps<{
     <!-- Sidebar component, swap this element with another sidebar if you like -->
     <div class="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 pb-4">
       <div class="flex h-16 shrink-0 items-center">
-        <img class="h-8 w-auto" src="/logo.png" alt="OM30" />
+        <RouterLink to="/">
+          <img class="h-8 w-auto" alt="OM30" src="/logo.png" />
+        </RouterLink>
       </div>
       <nav class="flex flex-1 flex-col">
         <ul role="list" class="flex flex-1 flex-col gap-y-7">
           <li>
             <ul role="list" class="-mx-2 space-y-1">
               <li v-for="item in nav" :key="item.name">
-                <a :href="item.href" :class="[item.current ? 'bg-gray-50 text-rose-600' : 'text-gray-700 hover:text-rose-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                <RouterLink v-if="item.to" :to="item.to" :class="[item.current ? 'bg-gray-50 text-rose-600' : 'text-gray-700 hover:text-rose-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
+                  <component :is="item.icon" :class="[item.current ? 'text-rose-600' : 'text-gray-400 group-hover:text-rose-600', 'h-6 w-6 shrink-0']" aria-hidden="true" />
+                  {{ item.name }}
+                </RouterLink>
+
+                <a v-else-if="item.href" :href="item?.href" :class="[item.current ? 'bg-gray-50 text-rose-600' : 'text-gray-700 hover:text-rose-600 hover:bg-gray-50', 'group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold']">
                   <component :is="item.icon" :class="[item.current ? 'text-rose-600' : 'text-gray-400 group-hover:text-rose-600', 'h-6 w-6 shrink-0']" aria-hidden="true" />
                   {{ item.name }}
                 </a>
               </li>
             </ul>
           </li>
-          <li class="mt-auto">
+          <!-- <li class="mt-auto">
             <a href="#" class="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-700 hover:bg-gray-50 hover:text-rose-600">
               <Cog6ToothIcon class="h-6 w-6 shrink-0 text-gray-400 group-hover:text-rose-600" aria-hidden="true" />
               Configurações
             </a>
-          </li>
+          </li> -->
         </ul>
       </nav>
     </div>
