@@ -1,4 +1,5 @@
 interface Patient {
+  id: number
   photo: string
   name: string
   mother: string

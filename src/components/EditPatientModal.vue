@@ -1,10 +1,12 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import axios from 'axios'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import PatientForm from '../components/forms/PatientForm.vue'
 
 defineProps<{
   isOpen: boolean
+  patient: Patient
 }>()
 
 const emit = defineEmits(['close', 'update'])
@@ -49,7 +51,7 @@ const newPatient = async () => {
               <div class="bg-white px-4 pb-4 pt-5 sm:pb-4">
                 <div class="sm:flex sm:items-start">
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Novo Paciente</DialogTitle>
+                    <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Editar Paciente</DialogTitle>
                     <div class="mt-2">
                       <p class="text-sm text-gray-500">Preencha as informações abaixo para cadastrar um novo paciente.</p>
                     </div>
