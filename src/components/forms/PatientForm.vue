@@ -1,5 +1,21 @@
-<script setup>
+<script setup lang="ts">
+import { ref, watch } from 'vue'
 import { PhotoIcon } from '@heroicons/vue/24/solid'
+
+const patient = ref<Patient>({
+  photo:
+    'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  name: 'Maria da silva braga',
+  mother: 'Joana da silva braga',
+  birth: new Date('2020-10-25'),
+  cpf: '052.188.324-25',
+  cns: '052.188.338-25',
+  address: 'Rua das pedras, 25, pereiros, Meruoca-CE, 125-458-000'
+})
+
+const emit = defineEmits(['update'])
+const update = () => emit('update', patient.value)
+
 </script>
 
 <template>
@@ -7,27 +23,27 @@ import { PhotoIcon } from '@heroicons/vue/24/solid'
     <div class="pt-2 mt-4 border-t grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-6">
       <div class="sm:col-span-3">
         <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Nome completo</label>
-        <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+        <input v-model="patient.name" @input="update" type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
       </div>
 
       <div class="sm:col-span-3">
         <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Nome da mãe</label>
-        <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+        <input v-model="patient.mother" @input="update" type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
       </div>
 
       <div class="sm:col-span-2">
         <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Data de nascimento</label>
-        <input type="date" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+        <input v-model="patient.birth" @input="update" type="date" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
       </div>
 
       <div class="sm:col-span-2">
         <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">CPF</label>
-        <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+        <input v-model="patient.cpf" @input="update" type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
       </div>
 
       <div class="sm:col-span-2">
         <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">CNS</label>
-        <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+        <input v-model="patient.cns" @input="update" type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
       </div>
 
       <div class="sm:col-span-2">

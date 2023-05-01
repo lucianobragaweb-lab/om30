@@ -51,20 +51,35 @@ export function makeServer (enviroment = 'development') {
         return schema.all('patient').length
       })
 
+      this.get('/patients/search', (schema, request) => {
+        const { query } = request.queryParams
+
+        return schema.patients.where((patient) => {
+          return (
+            patient?.name.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+            patient?.mother.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+            patient?.cpf.toLowerCase().indexOf(query.toLowerCase()) !== -1 ||
+            patient?.cns.toLowerCase().indexOf(query.toLowerCase()) !== -1
+          )
+        })
+      })
+
       this.get("/patients/:id", (schema, request) => {
         const id = request.params.id
         return schema.find("patient", id)
       })
 
       this.post("/patients", (schema, request) => {
-        const attrs = JSON.parse(request.requestBody)
+        let attrs = JSON.parse(request.requestBody)
+        attrs.photo = `https://ui-avatars.com/api/?name=${ attrs.name }`
         return schema.create("patient", attrs)
       })
 
       this.put("/patients/:id", (schema, request) => {
         const id = request.params.id
-        const attrs = JSON.parse(request.requestBody)
+        let attrs = JSON.parse(request.requestBody)
         const patient = schema.find("patient", id)
+        attrs.photo = `https://ui-avatars.com/api/?name=${ attrs.name }`
         return patient.update(attrs)
       })
 

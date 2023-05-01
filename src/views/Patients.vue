@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed, watch } from 'vue'
 import axios from 'axios'
+import { useStore } from 'vuex'
 
 import {
   PlusIcon,
@@ -15,6 +16,8 @@ import ShowPatient from '../components/ShowPatientModal.vue'
 import EditPatient from '../components/EditPatientModal.vue'
 import DeletePatient from '../components/DeletePatientModal.vue'
 
+const store = useStore()
+
 const newPatientOpen = ref(false)
 const showPatientOpen = ref(false)
 const editPatientOpen = ref(false)
@@ -24,11 +27,22 @@ const patients = ref<Patient[]>()
 const patient = ref<Patient>()
 const isLoading = ref(true)
 
-const getPatients = () => {
+const searchQuery = computed(() => store.state.searchQuery)
+const searchResults = computed(() => store.state.searchResults)
+
+const getPatients = async () => {
   isLoading.value = true
-  axios.get('api/patients').then(res => {
-    patients.value = res.data.patients
-  })
+
+  if (searchQuery.value) {
+    await store.dispatch('searchPatients')
+    console.log(searchResults)
+
+    patients.value = searchResults.value
+  } else {
+    axios.get('api/patients').then(res => {
+      patients.value = res.data.patients
+    })
+  }
 }
 
 const getPatient = async (id: number) => {
@@ -77,11 +91,12 @@ onMounted(() => {
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
         <h1 class="text-base font-semibold leading-6 text-gray-900">Pacientes</h1>
+        <!-- {{ searchResults }} -->
         <p class="mt-2 text-sm text-gray-700">Uma lista dos pacientes cadastrados.</p>
       </div>
       <NewPatient :isOpen="newPatientOpen" @close="newPatientOpen = false" @update="getPatients" />
       <ShowPatient :isOpen="showPatientOpen" @close="showPatientOpen = false" :patient="patient" />
-      <EditPatient :isOpen="editPatientOpen" @close="editPatientOpen = false" :patient="patient" />
+      <EditPatient :isOpen="editPatientOpen" @close="editPatientOpen = false" :patient="patient" @update="getPatients" />
       <DeletePatient :isOpen="deletePatientOpen" @close="deletePatientOpen = false" @destroy="removePatient" :patient="patient" />
 
       <div class="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -105,7 +120,7 @@ onMounted(() => {
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
-              <tr v-for="patient in patients" :key="patient.cpf">
+              <tr v-for="patient in searchResults.length ? searchResults : patients" :key="patient.cpf">
                 <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm">
                   <div class="flex items-center">
                     <div class="h-11 w-11 flex-shrink-0">
@@ -138,10 +153,10 @@ onMounted(() => {
                 </td>
                 <td class="relative whitespace-nowrap py-5 pl-3 pr-4 text-right text-sm font-medium">
                   <span class="isolate inline-flex rounded-md shadow-sm">
-                    <button @click="show(patient.id)" type="button" class="relative inline-flex items-center rounded-l-md bg-white px-3 py-1 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">
+                    <button @click="show(patient.id)" type="button" class="relative inline-flex items-center rounded-l-md bg-blue-600 px-3 py-1 text-sm font-semibold text-white ring-1 ring-inset ring-blue-600 hover:bg-blue-500 focus:z-10">
                       <EyeIcon class="h-5 w-5" aria-hidden="true" />
                     </button>
-                    <button @click="edit(patient.id)" type="button" class="relative -ml-px inline-flex items-center bg-white px-3 py-1 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10">
+                    <button @click="edit(patient.id)" type="button" class="relative -ml-px inline-flex items-center bg-yellow-500 px-3 py-1 text-sm font-semibold text-gray-800 ring-1 ring-inset ring-yellow-500 hover:bg-yellow-400 focus:z-10">
                       <PencilIcon class="h-5 w-5" aria-hidden="true" />
                     </button>
                     <button @click="destroy(patient.id)" type="button" class="relative -ml-px inline-flex items-center rounded-r-md px-2 py-1 text-sm font-semibold text-white ring-1 ring-inset bg-rose-600 ring-rose-500 hover:bg-rose-500 focus:z-10">

@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import type { UserNavigationItem } from '@/types/UserNavigationItem'
-import { useRouter } from 'vue-router'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
+import { useRouter, useRoute } from 'vue-router'
 
 defineProps<{
   userNav?: Array<UserNavigationItem>
 }>()
+const router = useRouter()
+const route = useRoute()
 
 import {
   Menu,
@@ -19,13 +20,21 @@ import { Bars3Icon } from '@heroicons/vue/24/outline'
 
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/vue/20/solid'
 
-const router = useRouter()
+const searchQuery = ref('')
+
 const store = useStore()
 
 const user = computed(() => store.state.user)
 
 const emit = defineEmits(['openSidebar'])
 const openSidebar = () => emit('openSidebar')
+
+const searchPatients = async () => {
+  if (route.name !== 'patients') {
+    router.push({ name: 'patients' })
+  }
+  store.dispatch('searchPatients', searchQuery.value)
+}
 
 </script>
 
@@ -43,7 +52,7 @@ const openSidebar = () => emit('openSidebar')
       <form class="relative flex flex-1" action="#" method="GET">
         <label for="search-field" class="sr-only">Search</label>
         <MagnifyingGlassIcon class="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400" aria-hidden="true" />
-        <input id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Buscar paciente..." type="search" name="search" />
+        <input v-model="searchQuery" @input="searchPatients" id="search-field" class="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm" placeholder="Buscar paciente..." type="search" name="search" />
       </form>
       <div class="flex items-center gap-x-4 lg:gap-x-6">
         <!-- Profile dropdown -->

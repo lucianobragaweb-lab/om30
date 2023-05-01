@@ -6,7 +6,9 @@ const store = createStore({
     return {
       count: 0,
       user: {},
-      patientsTotal: null
+      patientsTotal: null,
+      searchQuery: null,
+      searchResults: []
     }
   },
   mutations: {
@@ -21,6 +23,12 @@ const store = createStore({
     },
     patientsTotal (state, total) {
       state.patientsTotal = total
+    },
+    searchResults (state, result) {
+      state.searchResults = result
+    },
+    searchQuery (state, query) {
+      state.searchQuery = query
     }
   },
   actions: {
@@ -39,6 +47,20 @@ const store = createStore({
         axios.get('api/patients/total').then(res => {
           commit('patientsTotal', res.data)
         })
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async searchPatients ({ commit }, query) {
+      try {
+        const response = await axios.get('/api/patients/search', {
+          params: { query: query },
+        })
+
+        commit('searchQuery', query)
+        commit('searchResults', response.data.patients)
+        console.log(response.data.patients)
+
       } catch (error) {
         console.error(error)
       }
