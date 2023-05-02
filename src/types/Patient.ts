@@ -6,5 +6,12 @@ interface Patient {
   birth?: Date
   cpf?: string
   cns?: string
-  address?: string
+  address?: {
+    bairro: string
+    cep: string
+    gia: string
+    localidade: string
+    logradouro: string
+    uf: string
+  }
 }

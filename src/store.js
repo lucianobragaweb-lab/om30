@@ -64,6 +64,14 @@ const store = createStore({
       } catch (error) {
         console.error(error)
       }
+    },
+    async getByCep (_, cep) {
+      try {
+        const response = await axios.get(`/api/viacep/${ cep }`)
+        return response.data
+      } catch (error) {
+        console.error(error)
+      }
     }
   },
   getters: {

@@ -27,18 +27,57 @@ const close = () => emit('close')
                   <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <DialogTitle as="h3" class="text-base font-semibold leading-6 text-gray-900">Detalhes do Paciente</DialogTitle>
 
-                    <dl class="mt-6 grid grid-cols-1 text-sm leading-6 sm:grid-cols-2">
-                      <div class="sm:pr-4">
-                        <dt class="inline text-gray-500">Nome: </dt>
-                        <dd class="inline text-gray-700 font-semibold">{{ props.patient?.name }}</dd>
+                    <div class="pt-2 mt-4 border-t grid grid-cols-1 gap-x-6 gap-y-5 sm:grid-cols-6">
+                      <div class="sm:col-span-3">
+                        <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Nome completo</label>
+                        <input :value="props.patient?.name" disabled type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                       </div>
 
-                      <div class="sm:pr-4">
-                        <dt class="inline text-gray-500">Mãe: </dt>
-                        <dd class="inline text-gray-700 font-semibold">{{ props.patient?.mother }}</dd>
+                      <div class="sm:col-span-3">
+                        <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Nome da mãe</label>
+                        <input :value="props.patient?.mother" disabled type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                       </div>
-                    </dl>
 
+                      <div class="sm:col-span-2">
+                        <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">Data de nascimento</label>
+                        <input :value="props.patient?.birth" disabled type="date" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                      </div>
+
+                      <div class="sm:col-span-2">
+                        <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">CPF</label>
+                        <input :value="props.patient?.cpf" disabled v-mask="'###.###.###-##'" type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                      </div>
+
+                      <div class="sm:col-span-2">
+                        <label for="first-name" class="block text-sm font-medium leading-6 text-gray-900">CNS</label>
+                        <input :value="props.patient?.cns" disabled v-mask="'### #### #### ####'" type="text" name="first-name" id="first-name" autocomplete="given-name" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                      </div>
+
+                      <div class="sm:col-span-2">
+                        <label for="postal-code" class="block text-sm font-medium leading-6 text-gray-900">CEP</label>
+                        <input :value="props.patient?.address?.cep" disabled v-mask="'#####-###'" type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                      </div>
+
+                      <div class="col-span-4">
+                        <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">Logradouro</label>
+                        <input :value="props.patient?.address?.logradouro" disabled type="text" name="street-address" id="street-address" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                      </div>
+
+                      <div class="col-span-2">
+                        <label for="street-address" class="block text-sm font-medium leading-6 text-gray-900">N</label>
+                        <input :value="props.patient?.address?.gia" disabled type="text" name="street-address" id="street-address" autocomplete="street-address" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                      </div>
+
+                      <div class="sm:col-span-2">
+                        <label for="city" class="block text-sm font-medium leading-6 text-gray-900">Cidade</label>
+                        <input :value="props.patient?.address?.localidade" disabled type="text" name="city" id="city" autocomplete="address-level2" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                      </div>
+
+                      <div class="sm:col-span-2">
+                        <label for="region" class="block text-sm font-medium leading-6 text-gray-900">Estado</label>
+                        <input :value="props.patient?.address?.uf" disabled type="text" name="region" id="region" autocomplete="address-level1" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

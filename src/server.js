@@ -25,8 +25,15 @@ export function makeServer (enviroment = 'development') {
           mother: 'Joana da silva melo',
           birth: new Date('2020-10-25'),
           cpf: '052.188.328-25',
-          cns: '052.188.328-25',
-          address: 'Rua das pedras, 25, pereiros, Meruoca-CE, 125-458-000'
+          cns: '245875079710018',
+          address: {
+            bairro: "Sé",
+            cep: "10102-000",
+            gia: "1004",
+            localidade: "São Paulo",
+            logradouro: "Praça da Sé",
+            uf: "SP"
+          }
         })
 
       Server.create("patient", {
@@ -37,8 +44,15 @@ export function makeServer (enviroment = 'development') {
         mother: 'Joana da silva braga',
         birth: new Date('2020-10-25'),
         cpf: '052.188.324-25',
-        cns: '052.188.338-25',
-        address: 'Rua das pedras, 25, pereiros, Meruoca-CE, 125-458-000'
+        cns: '285977342600001',
+        address: {
+          bairro: "Sé",
+          cep: "30102-000",
+          gia: "1004",
+          localidade: "São Paulo",
+          logradouro: "Praça da Sé",
+          uf: "SP"
+        }
       })
     },
 
@@ -104,6 +118,22 @@ export function makeServer (enviroment = 'development') {
         localStorage.setItem("user", user)
 
         return { token, user }
+      })
+
+      this.get("/viacep/:cep", (schema, request) => {
+        const cep = request.params.cep
+        return {
+          cep: "01001-000",
+          logradouro: "Praça da Sé",
+          complemento: "lado ímpar",
+          bairro: "Sé",
+          localidade: "São Paulo",
+          uf: "SP",
+          ibge: "3550308",
+          gia: "1004",
+          ddd: "11",
+          siafi: "7107"
+        }
       })
     }
   })

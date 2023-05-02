@@ -128,7 +128,13 @@ onMounted(() => {
                     </div>
                     <div class="ml-4">
                       <div class="font-medium text-gray-900">{{ patient.name }}</div>
-                      <div class="mt-1 text-gray-500">{{ patient.address }}</div>
+                      <div class="mt-1 text-gray-500">
+                        {{ patient.address.logradouro }},
+                        {{ patient.address.gia }},
+                        {{ patient.address.bairro }},
+                        {{ patient.address.localidade }}
+                        {{ `-${patient.address.uf}` }}
+                      </div>
                     </div>
                   </div>
                 </td>
