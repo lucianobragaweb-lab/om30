@@ -1,6 +1,6 @@
 # OM30 - Dashboard para cadastro de pacientes
 
-## Tecnologias Utilizadas
+![Dashboard OM30](./screenshots/1-login.png "Tela Inicial")
 
 ## Requisitos Atendidos
 - [x]  Obrigatoriamente para o desenvolvimento do front-end usar o framework Vue.js.
@@ -19,7 +19,7 @@
 ## Diferenciais
 - [x] Utilizar algum padrão para commits;
   - Commits Semânticos
-- [] Realização de validações completas (utilizar biblioteca de validação, ex: yup);
+- [-] Realização de validações completas (utilizar biblioteca de validação, ex: yup);
   - No projeto estou utilizando Typescript, porem nem tudo está com tipagem devido ao tempo. (Cabe consideração do avaliador)
 - [x] Componentização de estruturas reutilizáveis;
   - Apesar do projeto estar dividido em vários componentes que são utilizados nas páginas, ainda poderiam ser divididos em sub componentes e componentes reutilizaveis, talvez utilizando Atomic Design, no entanto, devido a tantas outras tarefas a serem realizadas preferi não ir muito além neste quesito. (Cabe consideração do avaliador)
