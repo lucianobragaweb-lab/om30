@@ -5,7 +5,6 @@ import { makeServer } from './server'
 import store from './store'
 import VueTheMask from 'vue-the-mask'
 
-import './assets/main.css'
 import './index.css'
 
 if (process.env.NODE_ENV === 'development') {
