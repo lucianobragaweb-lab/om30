@@ -9,6 +9,10 @@ import {
   KeyIcon
 } from '@heroicons/vue/24/outline'
 
+import Button from '@/components/atoms/Button.vue'
+import FormInput from '@/components/atoms/FormInput.vue'
+import LoginBanner from '@/components/LoginBanner.vue'
+
 const store = useStore()
 const router = useRouter()
 
@@ -21,14 +25,13 @@ const saveUser = (user: User) => store.dispatch('saveUser', user)
 const doLogin = async () => {
   isLoading.value = true
   try {
-    axios.post('/api/login', {
+    const response = await axios.post('/api/login', {
       email: email.value,
       password: password.value
-    }).then(function (response) {
-      saveUser(response.data.user)
-      router.push({ name: 'home' })
-      console.log(response)
     })
+    saveUser(response.data.user)
+    router.push({ name: 'home' })
+    console.log(response)
   } catch (error) {
     console.error(error)
   } finally {
@@ -57,7 +60,7 @@ const doLogin = async () => {
                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                       <EnvelopeIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </div>
-                    <input type="email" name="email" id="email" v-model="email" class="block w-full rounded-md border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="seu@mail.com" />
+                    <FormInput type="email" icon="EnvelopeIcon" name="email" placeholder="seu@mail.com" v-model="email" />
                   </div>
                 </div>
 
@@ -67,12 +70,12 @@ const doLogin = async () => {
                     <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                       <KeyIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </div>
-                    <input type="password" name="password" id="password" v-model="password" class="block w-full rounded-md border-0 py-3 pl-10 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder="Digite sua senha" />
+                    <FormInput type="password" icon="KeyIcon" name="password" placeholder="Digite sua senha" v-model="password" />
                   </div>
                 </div>
 
                 <div class="py-4">
-                  <button type="submit" :disabled="isLoading" class="flex w-full justify-center rounded-md bg-rose-700 px-3 py-3 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-rose-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-800">Entrar</button>
+                  <Button type="submit" :disabled="isLoading">Entrar</Button>
                 </div>
               </form>
             </div>
@@ -80,9 +83,7 @@ const doLogin = async () => {
           </div>
         </div>
       </div>
-      <div class="relative hidden w-0 flex-1 lg:block">
-        <img class="absolute inset-0 h-full w-full object-cover" src="/gestor.png" alt="" />
-      </div>
+      <LoginBanner />
     </div>
   </div>
 </template>
